@@ -188,7 +188,7 @@ func sendSSHError(format string, a ...interface{}) error {
 
 func sshHostKeyChecker(fingerprint string) ssh.HostKeyCallback {
 	return func(hostname string, remote net.Addr, key ssh.PublicKey) error {
-		if fingerprint == ssh.FingerprintLegacyMD5(key) {
+		if fmt.Sprintf("SHA256:%s", fingerprint) == ssh.FingerprintSHA256(key) {
 			return nil
 		}
 		return errors.New("Host key fingerprint is incorrect")
